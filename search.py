@@ -30,11 +30,29 @@ class GiftSearchEndpoint(Resource):
         )
 
         print(response)
-        text = response["choices"][0]["text"]
-        print(text)
-        self.last_response = response
+        json_response = parse_response(response["choices"][0]["text"].strip())
+        self.last_response = json_response
+        print(json_response)
+        
 
-        return Response(json.dumps(text), mimetype="application/json", status=200)
+        return Response(json.dumps(json_response), mimetype="application/json", status=200)
+
+def parse_response(text):
+    items = text.split("\n")
+    items = [i[3:] for i in items]
+
+    ret = []
+
+    for i in items:
+        rec, desc = i.split(" - ")
+
+        ret.append({
+            "recommendation": rec,
+            "justification": desc,
+            "products": []
+        })
+
+    return ret
 
 def generate_prompt(description):
     return f"""This is an expert recommendation tool that gives gift ideas based on a personal description.
@@ -61,3 +79,5 @@ def initialize_routes(api):
         GiftSearchEndpoint, 
         '/api/search', '/api/search/'
     )
+
+
