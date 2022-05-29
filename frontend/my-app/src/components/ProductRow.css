@@ -3,9 +3,12 @@
 }
 
 .product-container {
-  display: flex;
+  /* display: flex; */
   flex-direction: row;
   width: 100%;
+  /* flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 .product-row-full-title {

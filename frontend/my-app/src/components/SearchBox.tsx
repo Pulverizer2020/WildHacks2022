@@ -16,6 +16,7 @@ const SearchBox = (props: {
   const [creativity, setCreativity] = useState(100);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    props.setIsLoading(true);
     e.preventDefault();
 
     const data = { prompt: searchQuery };
@@ -35,12 +36,12 @@ const SearchBox = (props: {
 
       apiCall.json().then((res: ProductProps[]) => {
         console.log(res);
+        props.setIsLoading(false);
         props.setProducts(res);
       });
-
-      // setTextResponse(res.json());
     } catch (err) {
       console.log("error:", err);
+      props.setIsLoading(false);
     }
   };
 

@@ -25,8 +25,9 @@ const ProductRow = (props: {
       <div className="product-row-container">
         <div>
           <h2 className="product-row-full-title">
-            <span className="product-row-number">{props.number}. </span>
+            <span className="product-row-number">{props.number}.</span>
             <div>
+              {" "}
               <span className="product-row-prodname">
                 {props.productRecommendation.recommendation};{" "}
               </span>
