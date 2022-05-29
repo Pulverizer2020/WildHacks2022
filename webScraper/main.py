@@ -1,6 +1,6 @@
 import json
-# from bs4 import BeautifulSoup
 import requests
+import re
 import random
 import urllib.parse
 from selectorlib import Extractor
@@ -10,8 +10,8 @@ from urllib import request
 from time import sleep
 
 # Create an Extractor by reading from the YAML file
-e2 = Extractor.from_yaml_file('search_results.yml')
-e = Extractor.from_yaml_file('selectors.yml')  # webScraper/
+e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
+e = Extractor.from_yaml_file('webScraper/selectors.yml')  # webScraper/
 
 proxies = [{"http": "208.85.20.119:1987"},
            {"http": "165.225.94.217:10130"},
@@ -20,7 +20,6 @@ proxies = [{"http": "208.85.20.119:1987"},
            {"http": "206.84.108.138:3128"},
            {"http": "165.225.206.219:10015"}
            ]
-
 
 # ----------- Etsy Page Scraper  ---------
 
@@ -66,8 +65,6 @@ def scrape_amazon(product):
             print("Page %s must have been blocked by Amazon as the status code was %d" % (url, r.status_code))
         return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
     resultingProduct = e.extract(r.text)
-    #print(product)
-    #print(resultingProduct)
     if resultingProduct:
         if resultingProduct['images']:
             productImage = list(json.loads(resultingProduct['images']))[-1]
@@ -143,35 +140,31 @@ def getAmazonGifts(input_string, amt_of_products):
         return amazonJsons
     return []
 
-#print(getEtsyGifts("bear", 3))
-#print(getAmazonGifts("bear", 3))
-
 # ----------- Uncommon Gifts Products --------------
-'''
-def scrape_uncommon(url):
-        headers = {
-            'dnt': '1',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-user': '?1',
-            'sec-fetch-dest': 'document',
-            'referer': 'https://www.amazon.com/',
-            'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-        }
+
+def getUncommonGifts(input_string,amt_of_products):
+        input_string = re.sub(r'[^A-Za-z0-9 ]+', '', input_string)
+        insert = urllib.parse.quote_plus(input_string)
+        url = f"https://www.uncommongoods.com/br/search/?account_id=5343&auth_key=&domain_key=uncommongoods&request_type=search&br_origin=searchBox&search_type=keyword&fl=pid%2Ctitle%2Cthumb_image%2Cthumb_image_alt%2Curl%2Creviews%2Creviews_count%2Cprice_range%2Cbr_min_sale_price%2Cbr_max_sale_price%2Cdays_live%2Cmin_inventory%2Cis_customizable%2Cnum_skus%2Cis_coming_soon%2Cvideo_link%2Cmin_age%2Cmax_age%2Cis_ship_delay%2Cavailability_attr%2Cavailable_inventory%2Cshow_only_on_sale_page%2Cships_within%2Carrives_by_holiday%2Cis_experience%2Cmin_price_sku%2Cmax_price_sku&efq=-show_only_on_sale_page:%222%22&request_id=570364592201.813&facet.field=ug_cat_internal&facet.field=recipients&_br_uid_2=&q={insert}&rows=120&start=0&custom_country=US&url=%22%2Fsearch%3Fq%3D{insert}%26custom_country%3D%22US&ref_url=%22%2Fsearch%22"
 
         # Download the page using requests
         # print("Downloading %s" % url)
-        r = requests.get(url, headers = headers)
-        # Simple check to check if page was blocked (Usually 503)
-        html = r.text
-        soup = BeautifulSoup(html, "html.parser")
-        soup.
-        jsonified = json.loads(soup)
+        response = request.urlopen(url) #this is request NOT requests, dont think it can use proxies?
+        html = response.read()
+        html = html.decode("utf-8")
+        htmlStruct = json.loads(html)
+        response = htmlStruct['response']
+        uncommonItems = []
+        for gIndex in range(0, min(response['numFound'], amt_of_products)):
+            gInfo = response['docs'][gIndex]
+            gTitle = gInfo['title']
+            gPrice = gInfo['price_range'][0]
+            gURL = "https://www.uncommongoods.com" + gInfo['url']
+            gImg = "https://images.uncommongoods.com"+gInfo['thumb_image']
+            uncommonItems.append(['Uncommon Goods', gTitle, gPrice, None, gImg, gURL])
+        return uncommonItems
 
-        print("use r")
-
-scrape_uncommon("https://www.uncommongoods.com/search?q=ugly%20sweater")
-'''
+#a = getUncommonGifts("Coke Zero", 3)
+#b = getEtsyGifts("Coke Zero", 3)
+#c = getAmazonGifts("Coke Zero", 3)
+#print("stop")
