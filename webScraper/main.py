@@ -13,12 +13,19 @@ from time import sleep
 e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
 e = Extractor.from_yaml_file('webScraper/selectors.yml')  # webScraper/
 
-proxies = [{"http": "208.85.20.119:1987"},
-           {"http": "165.225.94.217:10130"},
-           {"http": "35.244.6.175:1080"},
-           {"http": "165.225.206.227:10192"},
-           {"http": "206.84.108.138:3128"},
-           {"http": "165.225.206.219:10015"}
+proxies = [{"http": "50.239.72.16:80"},
+           {"http": "162.150.62.93:443"},
+           {"http": "47.252.4.64:8888"},
+           {"http": "20.222.136.61:8000"},
+           {"http": "23.106.47.28:3128"},
+           {"http": "20.81.62.32:3128"},
+           {"http": "8.142.76.91:22"},
+           {"http": "34.136.99.66:3128"},
+           {"http": "34.94.0.168:80"},
+           {"http": "161.49.215.57:8080"},
+           {"http": "18.140.155.45:4000"},
+           {"http": "67.73.184.178:8081"},
+           {"http": "159.65.133.175:31280"}
            ]
 
 # ----------- Etsy Page Scraper  ---------
@@ -52,7 +59,7 @@ def scrape_amazon(product):
     headers = {
         'dnt': '1',
         'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.53',
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'navigate',
@@ -61,8 +68,11 @@ def scrape_amazon(product):
         'referer': 'https://www.amazon.com/',
         'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
     }
+    if product['price'] is None:
+        product['price'] = "0"
     product['price'] = product['price'].strip("$")
     # Download the page using requests
+    s = requests.session()
     r = requests.get(url, headers=headers, proxies=random.choice(proxies))
     # Simple check to check if page was blocked (Usually 503)
     if r.status_code > 500:
@@ -85,17 +95,19 @@ def scrape_page_amazon(url):
     headers = {
         'dnt': '1',
         'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.53',
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'navigate',
         'sec-fetch-user': '?1',
         'sec-fetch-dest': 'document',
         'referer': 'https://www.amazon.com/',
-        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+        #'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+        'Accept-Language': 'en-US, en;q=0.5'
     }
 
     # Download the page using requests
+
     r = requests.get(url, headers=headers, proxies=random.choice(proxies))
     # Simple check to check if page was blocked (Usually 503)
     if r.status_code > 500:
@@ -168,7 +180,7 @@ def getUncommonGoods(input_string, amt_of_products):
         uncommonItems.append(['Uncommon Goods', gTitle, gPrice, None, gImg, gURL])
     return uncommonItems
 
-# a = getUncommonGoods("Bear-Proof Hammock", 3)
-# b = getEtsyGifts("Track lighting", 3)
-# c = getAmazonGifts("Zarif's Classic glow in the dark zeppelin", 3)
-# print("jey")
+#a = getUncommonGoods("Sanitizing Wand", 2)
+#b = getEtsyGifts("Sanitizing Wand", 2)
+#c = getAmazonGifts("Sanitizing Wand", 2)
+#print("jey")
