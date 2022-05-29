@@ -61,7 +61,7 @@ def scrape_amazon(product):
         'referer': 'https://www.amazon.com/',
         'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
     }
-
+    product['price'] = product['price'].strip("$")
     # Download the page using requests
     r = requests.get(url, headers=headers, proxies=random.choice(proxies))
     # Simple check to check if page was blocked (Usually 503)
@@ -168,6 +168,7 @@ def getUncommonGoods(input_string, amt_of_products):
         uncommonItems.append(['Uncommon Goods', gTitle, gPrice, None, gImg, gURL])
     return uncommonItems
 
-#a = getUncommonGoods("Bear-Proof Hammock", 3)
+# a = getUncommonGoods("Bear-Proof Hammock", 3)
 # b = getEtsyGifts("Track lighting", 3)
-# c = getAmazonGifts("Coke Zero", 3)
+# c = getAmazonGifts("Zarif's Classic glow in the dark zeppelin", 3)
+# print("jey")

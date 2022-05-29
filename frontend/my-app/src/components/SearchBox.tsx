@@ -13,13 +13,13 @@ const SearchBox = (props: {
     setSearchQuery(e.currentTarget.value);
   };
 
-  const [creativity, setCreativity] = useState(100);
+  const [creativity, setCreativity] = useState(0.7);
 
   const handleSubmit = async (e: React.FormEvent) => {
     props.setIsLoading(true);
     e.preventDefault();
 
-    const data = { prompt: searchQuery };
+    const data = { prompt: searchQuery, temperature: creativity };
 
     try {
       const apiCall: Response = await fetch(
@@ -53,12 +53,24 @@ const SearchBox = (props: {
           value={searchQuery}
           onChange={handleTextChange}
         ></textarea>
-        <input
-          type="range"
-          className="form-range"
-          id="customRange1"
-          aria-orientation="vertical"
-        />
+        <div className="slider">
+          <span>More Predictable</span>
+          <div className="slider-container">
+            <input
+              type="range"
+              className="form-range"
+              id="customRange1"
+              aria-orientation="vertical"
+              min="0.4"
+              max="1.0"
+              value={creativity}
+              onChange={ (e) => {setCreativity(Number(e.currentTarget.value))} }
+              step="0.01"
+            />
+          </div>
+          <span>More Creative</span>
+        </div>
+       
         <button className="btn btn-primary" onClick={handleSubmit}>
           Submit
         </button>
