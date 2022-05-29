@@ -43,7 +43,13 @@ function App() {
         <SearchBox setProducts={setProducts} />
         {products
           ? products.map((product, i) => {
-              return <ProductRow product={product} number={i} />;
+              return (
+                <ProductRow
+                  key={i}
+                  productRecommendation={product}
+                  number={i}
+                />
+              );
             })
           : null}
       </main>
