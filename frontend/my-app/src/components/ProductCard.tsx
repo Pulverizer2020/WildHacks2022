@@ -1,28 +1,23 @@
 import React from "react";
 import "./ProductCard.css";
 
-export type ProductProps = {
-  title: string;
-  link: string;
-};
+import { ProductProps } from "./ProductRow";
 
-const ProductCard = (props: ProductProps) => {
+const ProductCard = (props: ProductProps["products"][number]) => {
   return (
     <a
-      href={props.link}
+      className="card product-card-body"
+      href={props.product_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="product-card-body"
     >
-      <div className="image-container">
-        <img
-          src="logo512.png"
-          alt={props.title}
-          className="product-image"
-        ></img>
-      </div>
-      <div className="product-info-container">
-        <h3 className="product-title">{props.title}</h3>
+      <img className="product-image" src="logo512.png" alt={props.title} />
+      <div className="card-body product-info-container">
+        <h5 className="card-title">Card title</h5>
+        <p className="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
       </div>
     </a>
   );

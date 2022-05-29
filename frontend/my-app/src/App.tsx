@@ -3,12 +3,35 @@ import "./App.css";
 
 import SearchBox from "./components/SearchBox";
 
-import ProductCard from "./components/ProductCard";
-import { ProductProps } from "./components/ProductCard";
+import { ProductProps } from "./components/ProductRow";
+import ProductRow from "./components/ProductRow";
 
 function App() {
   const [products, setProducts] = useState<ProductProps[]>([
-    { title: "title", link: "http://www.google.com" },
+    {
+      recommendation: "recommendation",
+      justification: "justification",
+      products: [
+        {
+          product_url: "product.com",
+          site: "etsy.com",
+          title: "title",
+          price: 9,
+        },
+        {
+          product_url: "product1.com",
+          site: "etsy1.com",
+          title: "title1",
+          price: 90,
+        },
+        {
+          product_url: "product2.com",
+          site: "etsy2.com",
+          title: "title2",
+          price: 9092384,
+        },
+      ],
+    },
   ]);
 
   return (
@@ -18,15 +41,11 @@ function App() {
       </header>
       <main className="main-body">
         <SearchBox setProducts={setProducts} />
-        <div className="product-list">
-          {products.length > 0
-            ? products.map((product) => {
-                return (
-                  <ProductCard title={product.title} link={product.link} />
-                );
-              })
-            : null}
-        </div>
+        {products
+          ? products.map((product, i) => {
+              return <ProductRow product={product} number={i} />;
+            })
+          : null}
       </main>
     </div>
   );
