@@ -10,8 +10,8 @@
   transition: 0.2s;
 }
 
-.product-card-body:active {
-  transform: scaleX(0.98) scaleY(0.98);
+.product-card-body:hover {
+  transform: scaleX(1.02) scaleY(1.02);
 }
 
 .image-container {
@@ -26,6 +26,12 @@
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
   object-fit: cover;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .product-info-container {
