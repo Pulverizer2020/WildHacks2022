@@ -8,10 +8,14 @@ from flask_restful import Api
 
 from search import initialize_routes
 
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 api = Api(app)
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route("/", methods=("GET", "POST"))
 def index():

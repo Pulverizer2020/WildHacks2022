@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+  background-color: rgb(250, 250, 250);
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.product-list {
+  display: flex;
+  width: 80%;
+  margin-top: 40px;
+}
+
+.heading {
+  margin-top: 0;
+}

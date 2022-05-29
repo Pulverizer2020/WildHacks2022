@@ -16,10 +16,12 @@ class GiftSearchEndpoint(Resource):
             return Response(json.dumps({"message":"make a query for openAI"}), mimetype="application/json", status=200)
 
     def post(self):
+        print("in here")
         body = request.get_json()
         print(body)
 
-        description = request.form["prompt"]
+        description = body["prompt"]
+        print(description)
         response = openai.Completion.create(
             engine="text-babbage-001",
             prompt=generate_prompt(description),
@@ -28,9 +30,11 @@ class GiftSearchEndpoint(Resource):
         )
 
         print(response)
+        text = response["choices"][0]["text"]
+        print(text)
         self.last_response = response
 
-        return Response(json.dumps(response), mimetype="application/json", status=200)
+        return Response(json.dumps(text), mimetype="application/json", status=200)
 
 def generate_prompt(description):
     return f"""This is an expert recommendation tool that gives gift ideas based on a personal description.
