@@ -75,7 +75,9 @@ const SearchBox = (props: {
           <span>More Creative</span>
         </div>
 
-        <button className="button-87">Submit</button>
+        <button className="button-87" onClick={handleSubmit}>
+          Submit
+        </button>
       </div>
     </>
   );
