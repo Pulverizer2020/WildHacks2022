@@ -14,7 +14,8 @@ const ProductCard = (props: ProductProps["products"][number]) => {
       <EcomLogo siteName={props.site} />
       <img
         className="product-image"
-        src="logo512.png"
+        // src="logo512.png"
+        src={props.image_url}
         alt={props.product_name}
       />
       <div className="card-body product-info-container">
