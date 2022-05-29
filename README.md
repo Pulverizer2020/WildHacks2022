@@ -14,7 +14,7 @@ Andrew Pulver - Julian Baldwin - Ryan Newkirk
 2. Obtain OpenAI API key
    - Make a free account on OpenAI
    - Click on profile photo, and then "View API keys"
-   - Copy API key and paste into Flask environment variable file OPENAI_API_KEY=YOUR_KEY_HERE
+   - Copy API key and paste the following into Flask environment variable file named .env: OPENAI_API_KEY=YOUR_KEY_HERE
 3. Install libraries
    - In root folder, run the following command: pip install -r requirements.txt
    - Navigate to /frontend/my-app/ folder, then run the following command: npm i
