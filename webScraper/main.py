@@ -1,4 +1,5 @@
 import json
+#from bs4 import BeautifulSoup
 import requests
 import urllib.parse
 from selectorlib import Extractor
@@ -9,7 +10,7 @@ from time import sleep
 
 # Create an Extractor by reading from the YAML file
 e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
-e = Extractor.from_yaml_file('webScraper/selectors.yml')
+e = Extractor.from_yaml_file('webScraper/selectors.yml') # webScraper/
 
 
 # ----------- Etsy Page Scraper  ---------
@@ -126,12 +127,11 @@ def getAmazonGifts(input_string, amt_of_products):
     print("amazonJsons Finished")
     return amazonJsons
 
-
+#print(getAmazonGifts("bear",3))
 
 
 
 # ----------- Uncommon Gifts Products --------------
-
 '''
 def scrape_uncommon(url):
         headers = {
