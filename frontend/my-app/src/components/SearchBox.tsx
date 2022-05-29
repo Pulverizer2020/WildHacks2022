@@ -30,6 +30,7 @@ const SearchBox = (props: {
       );
 
       apiCall.json().then((res: ProductProps[]) => {
+        console.log(res);
         props.setProducts(res);
       });
 
