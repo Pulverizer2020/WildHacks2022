@@ -1,6 +1,5 @@
 import json
-# import utils
-# import xmltojson
+#from bs4 import BeautifulSoup
 import requests
 import urllib.parse
 from selectorlib import Extractor
@@ -11,7 +10,7 @@ from time import sleep
 
 # Create an Extractor by reading from the YAML file
 e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
-e = Extractor.from_yaml_file('webScraper/selectors.yml')
+e = Extractor.from_yaml_file('webScraper/selectors.yml') # webScraper/
 
 
 # ----------- Etsy Page Scraper  ---------
@@ -56,13 +55,13 @@ def scrape_amazon(product):
             print("Page %s was blocked by Amazon. Please try using better proxies\n" % url)
         else:
             print("Page %s must have been blocked by Amazon as the status code was %d" % (url, r.status_code))
-        return json.dumps(['Amazon', product['title'], product['price'], None, productImage, product['url']])
+        return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
     resultingProduct = e.extract(r.text)
     if resultingProduct:
         if resultingProduct['images']:
             productImage = list(json.loads(resultingProduct['images']))[-1]
-            return json.dumps(['Amazon', product['title'], product['price'], None, productImage, product['url']])
-    return json.dumps(['Amazon', product['title'], product['price'], None, productImage, product['url']])
+            return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
+    return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
 
 # ----------- Amazon Page Scraper -------------
 
@@ -102,13 +101,13 @@ def getEtsyGifts(input_string, amt_of_products):
     gatheredItems = getetsy(input_string,amt_of_products)
     etsyJsons = []
 
-    etsyJsons = [json.dumps(['Etsy',
+    etsyJsons = [['Etsy',
                              item['title'],
                              item['price'],
                              item['currency_code'],
                              item['Images'][0]['url_170x135'],
                              item['url']]
-                            ) for item in gatheredItems]
+                             for item in gatheredItems]
 
     return etsyJsons
 
@@ -128,18 +127,12 @@ def getAmazonGifts(input_string, amt_of_products):
     print("amazonJsons Finished")
     return amazonJsons
 
+#print(getAmazonGifts("bear",3))
 
 
 
-
-
-# print(getEtsyGifts("George Washington mug", 3))
-
-# print(getAmazonGifts("Nice", 3))
-
-'''
 # ----------- Uncommon Gifts Products --------------
-
+'''
 def scrape_uncommon(url):
         headers = {
             'dnt': '1',
@@ -156,12 +149,12 @@ def scrape_uncommon(url):
 
         # Download the page using requests
         # print("Downloading %s" % url)
-        r = request.get(url, headers = headers)
+        r = requests.get(url, headers = headers)
         # Simple check to check if page was blocked (Usually 503)
-        html = r.read()
-
-
-        jsonified = xmltojson.parse(html)
+        html = r.text
+        soup = BeautifulSoup(html, "html.parser")
+        soup.
+        jsonified = json.loads(soup)
 
         print("use r")
 
