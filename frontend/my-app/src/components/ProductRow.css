@@ -1,5 +1,6 @@
 .product-row-container {
   width: 80%;
+  margin-top: 40px;
 }
 
 .product-container {
@@ -11,26 +12,22 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
-.product-row-full-title {
+.product-row-title {
   text-align: left;
   display: flex;
-  align-items: baseline;
-}
-
-.product-row-number {
-  font-family: "Raleway";
-  font-size: 85px;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .product-row-prodname {
   font-family: "Raleway";
-  font-size: 60px;
+  font-size: 50px;
 }
 
 .product-row-justification {
   font-family: "Raleway";
   font-size: 30px;
-  font-weight: 500;
 }
 
 .product-container {

@@ -21,18 +21,15 @@
 
 .heading {
   padding-top: 20px;
-  font-size: 4em;
+  padding-bottom: 20px;
+  font-size: 5em;
   font-family: "Raleway", sans-serif;
 }
 
 header {
   width: 100%;
-  background-color: rgb(139 251 255);
+  background-color: rgb(168, 168, 168);
   z-index: 10;
-}
-
-header p {
-  margin: 10px;
 }
 
 .instructions-container {
