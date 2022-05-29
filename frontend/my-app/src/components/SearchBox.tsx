@@ -52,6 +52,8 @@ const SearchBox = (props: {
           className="search-box"
           value={searchQuery}
           onChange={handleTextChange}
+          placeholder="Example: A women in her mid 20s. She likes reading comic books and attending
+          music festivals."
         ></textarea>
         <div className="slider">
           <span>More Predictable</span>
@@ -64,16 +66,16 @@ const SearchBox = (props: {
               min="0.4"
               max="1.0"
               value={creativity}
-              onChange={ (e) => {setCreativity(Number(e.currentTarget.value))} }
+              onChange={(e) => {
+                setCreativity(Number(e.currentTarget.value));
+              }}
               step="0.01"
             />
           </div>
           <span>More Creative</span>
         </div>
-       
-        <button className="btn btn-primary" onClick={handleSubmit}>
-          Submit
-        </button>
+
+        <button className="button-87">Submit</button>
       </div>
     </>
   );
