@@ -15,20 +15,11 @@ function App() {
     <div className="App">
       <header>
         <h1 className="heading">The Gift Whisperer</h1>
-        <p>We use the latest AI to recommend gifts</p>
       </header>
       <div className="instructions-container">
         Enter a description of the person you want to buy a gift for, and we
         will suggest unique gift ideas. The more detail you provide, the more
         information we have to work with!
-      </div>
-      <div className="example-container">
-        <span className="example-tag">Example:</span>
-        <span>
-          {" "}
-          A women in her mid 20s. She likes reading comic books and attending
-          music festivals.
-        </span>
       </div>
       <main className="main-body">
         <SearchBox setProducts={setProducts} setIsLoading={setIsLoading} />

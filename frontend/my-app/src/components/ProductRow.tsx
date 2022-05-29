@@ -23,19 +23,13 @@ const ProductRow = (props: {
   return (
     <>
       <div className="product-row-container">
-        <div>
-          <h2 className="product-row-full-title">
-            <span className="product-row-number">{props.number}.</span>
-            <div>
-              {" "}
-              <span className="product-row-prodname">
-                {props.productRecommendation.recommendation};{" "}
-              </span>
-              <span className="product-row-justification">
-                {props.productRecommendation.justification}
-              </span>
-            </div>
-          </h2>
+        <div className="product-row-title">
+          <span className="product-row-prodname">
+            <strong>{props.number}{".  "}{props.productRecommendation.recommendation}</strong>
+          </span>
+          <span className="product-row-justification">
+            {props.productRecommendation.justification}
+          </span>
         </div>
         <div className="product-container">
           {props.productRecommendation.products
