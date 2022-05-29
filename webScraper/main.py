@@ -21,7 +21,6 @@ proxies = [{"http": "208.85.20.119:1987"},
            {"http": "165.225.206.219:10015"}
            ]
 
-
 # ----------- Etsy Page Scraper  ---------
 
 def getetsy(keywords, amt_of_products):
@@ -128,7 +127,7 @@ def getEtsyGifts(input_string, amt_of_products):
     return etsyItems
 
 # ---------------- Amazon Scrape ----------------
-def getAmazonGifts(input_string, amt_of_products):
+def getAmazonGifts(input_string, amt_of_products=2):
 
     url_amazon = f"https://www.amazon.com/s?k={urllib.parse.quote_plus(input_string).replace('%20', '+')}"
     data = scrape_page_amazon(url_amazon)
@@ -172,4 +171,3 @@ def getUncommonGoods(input_string, amt_of_products):
 #a = getUncommonGoods("Bear-Proof Hammock", 3)
 # b = getEtsyGifts("Track lighting", 3)
 # c = getAmazonGifts("Coke Zero", 3)
-#print("stop")

@@ -4,7 +4,9 @@ from flask_restful import Resource
 import openai
 import json
 
-from webScraper.main import getAmazonGifts, getEtsyGifts
+import concurrent.futures as threads
+
+from webScraper.main import getAmazonGifts, getEtsyGifts, getUncommonGoods
 
 
 class GiftSearchEndpoint(Resource):
@@ -64,14 +66,18 @@ def parse_response(response):
     return ret
 
 def compile_product_data(items):
-    for rec in items[:3]:
-        print(rec["recommendation"])
-        # amazon = getAmazonGifts(i["recommendation"], 2)
-        etsy = getEtsyGifts(rec["recommendation"], 2)
+    # amazon results are fetched concurrently to save time
+    amazon_results = []
+    with threads.ThreadPoolExecutor() as executor:
+        for result in executor.map(getAmazonGifts, [x["recommendation"] for x in items]):
+            print(result)
+            amazon_results.append(result)
 
-        print(rec)
-        print("Etsy search results:", etsy)
-        for product in etsy:
+    etsy_results = [getEtsyGifts(rec["recommendation"], 2) for rec in items]
+    ug_results = [getUncommonGoods(rec["recommendation"], 2) for rec in items]
+
+    for rec, amazon, etsy, ug in zip(items, amazon_results, etsy_results, ug_results):
+        for product in (amazon + etsy + ug):
             rec["products"].append({
                 "site": product[0],
                 "product_name": product[1],
