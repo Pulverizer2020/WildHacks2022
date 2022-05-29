@@ -1,0 +1,14 @@
+.product-row-container {
+  width: 80%;
+}
+
+.product-row-heading {
+  font-family: "Raleway";
+  text-align: left;
+}
+
+.product-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}

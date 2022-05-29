@@ -14,21 +14,87 @@ function App() {
       products: [
         {
           product_url: "product.com",
-          site: "etsy.com",
-          title: "title",
-          price: 9,
+          site: "Amazon",
+          product_name: "title",
+          price: "9",
+          currency: "usd",
+          image_url: "goadfogle.com",
         },
         {
-          product_url: "product1.com",
-          site: "etsy1.com",
-          title: "title1",
-          price: 90,
+          product_url: "producadft.com",
+          site: "Etsy",
+          product_name: "title",
+          price: "9",
+          currency: "usd",
+          image_url: "google.com",
         },
         {
-          product_url: "product2.com",
-          site: "etsy2.com",
-          title: "title2",
-          price: 9092384,
+          product_url: "proasdfduct.com",
+          site: "Etsy",
+          product_name: "title",
+          price: "adf9",
+          currency: "usd",
+          image_url: "google.com",
+        },
+      ],
+    },
+    {
+      recommendation: "recommendation",
+      justification: "justification",
+      products: [
+        {
+          product_url: "product.com",
+          site: "Amazon",
+          product_name: "title",
+          price: "9",
+          currency: "usd",
+          image_url: "goadfogle.com",
+        },
+        {
+          product_url: "producadft.com",
+          site: "Etsy",
+          product_name: "title",
+          price: "9",
+          currency: "usd",
+          image_url: "google.com",
+        },
+        {
+          product_url: "proasdfduct.com",
+          site: "Etsy",
+          product_name: "title",
+          price: "adf9",
+          currency: "usd",
+          image_url: "google.com",
+        },
+      ],
+    },
+    {
+      recommendation: "recommendation",
+      justification: "justification",
+      products: [
+        {
+          product_url: "product.com",
+          site: "Amazon",
+          product_name: "title",
+          price: "9",
+          currency: "usd",
+          image_url: "goadfogle.com",
+        },
+        {
+          product_url: "producadft.com",
+          site: "Etsy",
+          product_name: "title",
+          price: "9",
+          currency: "usd",
+          image_url: "google.com",
+        },
+        {
+          product_url: "proasdfduct.com",
+          site: "Etsy",
+          product_name: "title",
+          price: "adf9",
+          currency: "usd",
+          image_url: "google.com",
         },
       ],
     },
@@ -37,7 +103,8 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1 className="heading">Gift Giver</h1>
+        <h1 className="heading">The Gift Whisperer</h1>
+        <p>We use the latest technology in AI to recommend gifts</p>
       </header>
       <main className="main-body">
         <SearchBox setProducts={setProducts} />
@@ -47,7 +114,7 @@ function App() {
                 <ProductRow
                   key={i}
                   productRecommendation={product}
-                  number={i}
+                  number={i + 1}
                 />
               );
             })
