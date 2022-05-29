@@ -10,8 +10,8 @@ from urllib import request
 from time import sleep
 
 # Create an Extractor by reading from the YAML file
-e2 = Extractor.from_yaml_file('search_results.yml')
-e = Extractor.from_yaml_file('selectors.yml')  # webScraper/
+e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
+e = Extractor.from_yaml_file('webScraper/selectors.yml')  # webScraper/
 
 proxies = [{"http": "208.85.20.119:1987"},
            {"http": "165.225.94.217:10130"},
