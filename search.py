@@ -35,9 +35,9 @@ class GiftSearchEndpoint(Resource):
         )
 
         json_response = parse_response(response)
-        json_response = compile_product_data(json_response)
         self.last_response = json_response
-        print(json_response)
+
+        compile_product_data(json_response)
         
 
         return Response(json.dumps(json_response), mimetype="application/json", status=200)
@@ -73,8 +73,8 @@ def compile_product_data(items):
 
         print(i)
         print(amazon)
-        for a in amazon:
-            print(a)
+        for product in amazon:
+            print(product)
 
 def generate_prompt(description):
     return f"""This is an expert recommendation tool that gives gift ideas based on a personal description.
