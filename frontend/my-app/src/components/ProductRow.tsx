@@ -1,7 +1,6 @@
 import React from "react";
 import "./ProductRow.css";
 
-import ProductCarousel from "./ProductCarousel";
 import ProductCard from "./ProductCard";
 
 export type ProductProps = {
@@ -25,9 +24,16 @@ const ProductRow = (props: {
     <>
       <div className="product-row-container">
         <div>
-          <h2 className="product-row-heading">
-            {props.number}. {props.productRecommendation.recommendation};{" "}
-            <span>{props.productRecommendation.justification}</span>
+          <h2 className="product-row-full-title">
+            <span className="product-row-number">{props.number}. </span>
+            <div>
+              <span className="product-row-prodname">
+                {props.productRecommendation.recommendation};{" "}
+              </span>
+              <span className="product-row-justification">
+                {props.productRecommendation.justification}
+              </span>
+            </div>
           </h2>
         </div>
         <div className="product-container">
