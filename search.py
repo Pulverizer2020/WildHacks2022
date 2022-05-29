@@ -37,8 +37,6 @@ class GiftSearchEndpoint(Resource):
         json_response = parse_response(response)
         json_response = compile_product_data(json_response)
         self.last_response = json_response
-        print(json_response)
-        
 
         return Response(json.dumps(json_response), mimetype="application/json", status=200)
 
@@ -67,14 +65,24 @@ def parse_response(response):
     return ret
 
 def compile_product_data(items):
-    for i in items[:1]:
-        amazon = getAmazonGifts(i["recommendation"], 2)
-        # etsy = getEtsyGifts(i["recommendation"], 2)
+    for i in items[:3]:
+        print(i["recommendation"])
+        # amazon = getAmazonGifts(i["recommendation"], 2)
+        etsy = getEtsyGifts(i["recommendation"], 2)
 
         print(i)
-        print(amazon)
-        for a in amazon:
-            print(a)
+        print("Etsy search results:", etsy)
+        for product in etsy:
+            i["products"].append({
+                "site": product[0],
+                "product_name": product[1],
+                "price": product[2],
+                "currency": product[3],
+                "image_url": product[4],
+                "product_url": product[5]
+            })
+
+    return items
 
 def generate_prompt(description):
     return f"""This is an expert recommendation tool that gives gift ideas based on a personal description.
