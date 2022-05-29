@@ -26,13 +26,17 @@ class GiftSearchEndpoint(Resource):
         print("POST request to api/search endpoint, body:", body)
 
         description = body["prompt"]
-        print("giftee description:", description)
+        if "temperature" in body:
+            temp = float(body["temperature"])
+        else:
+            temp = 0.8
+        print("giftee description:", description, temp)
         # actual call to OpenAI api, many optional args
         response = openai.Completion.create(
             engine="text-curie-001",
             prompt=generate_prompt(description),
             max_tokens=100,
-            temperature=0.8,
+            temperature=temp,
         )
 
         json_response = parse_response(response)
