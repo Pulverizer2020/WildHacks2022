@@ -21,7 +21,6 @@ proxies = [{"http": "208.85.20.119:1987"},
            {"http": "165.225.206.219:10015"}
            ]
 
-
 # ----------- Etsy Page Scraper  ---------
 
 def getetsy(keywords, amt_of_products):
@@ -116,35 +115,34 @@ def getEtsyGifts(input_string, amt_of_products):
 
     # ----------- Etsy Products --------------
     gatheredItems = getetsy(input_string, amt_of_products)
-    etsyJsons = []
+    etsyItems = []
 
-    etsyJsons = [['Etsy',
+    etsyItems = [['Etsy',
                   item['title'],
                   item['price'],
                   item['currency_code'],
                   item['Images'][0]['url_170x135'],
                   item['url']]
                  for item in gatheredItems]
-
-    return etsyJsons
+    return etsyItems
 
 # ---------------- Amazon Scrape ----------------
-def getAmazonGifts(input_string, amt_of_products):
+def getAmazonGifts(input_string, amt_of_products=2):
 
     url_amazon = f"https://www.amazon.com/s?k={urllib.parse.quote_plus(input_string).replace('%20', '+')}"
     data = scrape_page_amazon(url_amazon)
     if data:
         print(data)
         first_products = data['products'][:amt_of_products]
-        amazonJsons = []
+        amazonItems = []
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for result in executor.map(scrape_amazon, first_products):
                 print("this is a result from thread")
                 print(result)
-                amazonJsons.append(result)
-                print(amazonJsons)
-        print("amazonJsons Finished")
-        return amazonJsons
+                amazonItems.append(result)
+                print(amazonItems)
+        print("amazonItems Finished")
+        return amazonItems
     return []
 
 
@@ -153,7 +151,6 @@ def getUncommonGoods(input_string, amt_of_products):
     input_string = re.sub(r'[^A-Za-z0-9 ]+', '', input_string)
     insert = urllib.parse.quote_plus(input_string)
     url = f"https://www.uncommongoods.com/br/search/?account_id=5343&auth_key=&domain_key=uncommongoods&request_type=search&br_origin=searchBox&search_type=keyword&fl=pid%2Ctitle%2Cthumb_image%2Cthumb_image_alt%2Curl%2Creviews%2Creviews_count%2Cprice_range%2Cbr_min_sale_price%2Cbr_max_sale_price%2Cdays_live%2Cmin_inventory%2Cis_customizable%2Cnum_skus%2Cis_coming_soon%2Cvideo_link%2Cmin_age%2Cmax_age%2Cis_ship_delay%2Cavailability_attr%2Cavailable_inventory%2Cshow_only_on_sale_page%2Cships_within%2Carrives_by_holiday%2Cis_experience%2Cmin_price_sku%2Cmax_price_sku&efq=-show_only_on_sale_page:%222%22&request_id=570364592201.813&facet.field=ug_cat_internal&facet.field=recipients&_br_uid_2=&q={insert}&rows=120&start=0&custom_country=US&url=%22%2Fsearch%3Fq%3D{insert}%26custom_country%3D%22US&ref_url=%22%2Fsearch%22"
-
     # Download the page using requests
     # print("Downloading %s" % url)
     response = request.urlopen(url)  # this is request NOT requests, dont think it can use proxies?
@@ -171,7 +168,6 @@ def getUncommonGoods(input_string, amt_of_products):
         uncommonItems.append(['Uncommon Goods', gTitle, gPrice, None, gImg, gURL])
     return uncommonItems
 
-# a = getUncommonGoods("Coke Zero", 3)
-# b = getEtsyGifts("Spaghetti Sauce", 3)
+#a = getUncommonGoods("Bear-Proof Hammock", 3)
+# b = getEtsyGifts("Track lighting", 3)
 # c = getAmazonGifts("Coke Zero", 3)
-print("stop")
