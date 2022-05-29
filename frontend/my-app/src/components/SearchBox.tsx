@@ -5,6 +5,7 @@ import { ProductProps } from "./ProductRow";
 
 const SearchBox = (props: {
   setProducts: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -25,7 +26,10 @@ const SearchBox = (props: {
         {
           method: "POST",
           body: JSON.stringify(data),
-          headers: { "Content-type": "application/json; charset=UTF-8" },
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "Access-Control-Allow-Origin": "*",
+          },
         }
       );
 
@@ -44,7 +48,7 @@ const SearchBox = (props: {
     <>
       <div className="form-wrapper">
         <textarea
-          className="search-box "
+          className="search-box"
           value={searchQuery}
           onChange={handleTextChange}
         ></textarea>

@@ -37,6 +37,12 @@ const EcomLogo = (props: { siteName: string }) => {
         />
       ) : props.siteName === "Etsy" ? (
         <img src="Etsy_logo.png" alt="Etsy Logo" className="logo-image-etsy" />
+      ) : props.siteName === "Uncommon Goods" ? (
+        <img
+          src="uncommon-goods-logo.png"
+          alt="Uncommon Goods Logo"
+          className="logo-image-uncommon-goods"
+        />
       ) : null}
     </div>
   );
