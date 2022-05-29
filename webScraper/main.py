@@ -1,6 +1,7 @@
 import json
-#from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import requests
+import random
 import urllib.parse
 from selectorlib import Extractor
 import concurrent.futures
@@ -9,18 +10,26 @@ from urllib import request
 from time import sleep
 
 # Create an Extractor by reading from the YAML file
-e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
-e = Extractor.from_yaml_file('webScraper/selectors.yml') # webScraper/
+e2 = Extractor.from_yaml_file('search_results.yml')
+e = Extractor.from_yaml_file('selectors.yml')  # webScraper/
+
+proxies = [{"http": "208.85.20.119:1987"},
+           {"http": "165.225.94.217:10130"},
+           {"http": "35.244.6.175:1080"},
+           {"http": "165.225.206.227:10192"},
+           {"http": "206.84.108.138:3128"},
+           {"http": "165.225.206.219:10015"}
+           ]
 
 
 # ----------- Etsy Page Scraper  ---------
 
-def getetsy(keywords,amt_of_products):
+def getetsy(keywords, amt_of_products):
     safe_string = urllib.parse.quote_plus(keywords)
     # r.extract_keywords_from_text(keyword)
     # nk = r.get_ranked_phrases()
     eurl = f"https://openapi.etsy.com/v2/listings/active?keywords={safe_string}&limit={amt_of_products}&min_price=1&max_price=1000&includes=Images&sort_on=score&api_key=irfd7hodi7rj4mp6yd4hmkqv"
-    etsy = requests.get(eurl)
+    etsy = requests.get(eurl, proxies=random.choice(proxies))
     etsyproduct = etsy.content
     decetsy = etsyproduct.decode('utf-8')
     etsyjson = json.loads(decetsy)
@@ -48,7 +57,7 @@ def scrape_amazon(product):
     }
 
     # Download the page using requests
-    r = requests.get(url, headers=headers)
+    r = requests.get(url, headers=headers, proxies=random.choice(proxies))
     # Simple check to check if page was blocked (Usually 503)
     if r.status_code > 500:
         if "To discuss automated access to Amazon data please contact" in r.text:
@@ -57,11 +66,14 @@ def scrape_amazon(product):
             print("Page %s must have been blocked by Amazon as the status code was %d" % (url, r.status_code))
         return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
     resultingProduct = e.extract(r.text)
+    #print(product)
+    #print(resultingProduct)
     if resultingProduct:
         if resultingProduct['images']:
             productImage = list(json.loads(resultingProduct['images']))[-1]
             return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
     return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
+
 
 # ----------- Amazon Page Scraper -------------
 
@@ -80,7 +92,7 @@ def scrape_page_amazon(url):
     }
 
     # Download the page using requests
-    r = requests.get(url, headers=headers)
+    r = requests.get(url, headers=headers, proxies=random.choice(proxies))
     # Simple check to check if page was blocked (Usually 503)
     if r.status_code > 500:
         if "To discuss automated access to Amazon data please contact" in r.text:
@@ -98,38 +110,41 @@ def getEtsyGifts(input_string, amt_of_products):
     # amt_of_products <-- Amount of Products to get from each store
 
     # ----------- Etsy Products --------------
-    gatheredItems = getetsy(input_string,amt_of_products)
+    gatheredItems = getetsy(input_string, amt_of_products)
     etsyJsons = []
 
     etsyJsons = [['Etsy',
-                             item['title'],
-                             item['price'],
-                             item['currency_code'],
-                             item['Images'][0]['url_170x135'],
-                             item['url']]
-                             for item in gatheredItems]
+                  item['title'],
+                  item['price'],
+                  item['currency_code'],
+                  item['Images'][0]['url_170x135'],
+                  item['url']]
+                 for item in gatheredItems]
 
     return etsyJsons
 
-def getAmazonGifts(input_string, amt_of_products):
 
+def getAmazonGifts(input_string, amt_of_products):
     # ---------------- Amazon Scrape ----------------
 
     url_amazon = f"https://www.amazon.com/s?k={urllib.parse.quote_plus(input_string).replace('%20', '+')}"
     data = scrape_page_amazon(url_amazon)
     if data:
+        print(data)
         first_products = data['products'][:amt_of_products]
         amazonJsons = []
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for result in executor.map(scrape_amazon, first_products):
+                print("this is a result from thread")
+                print(result)
                 amazonJsons.append(result)
+                print(amazonJsons)
+        print("amazonJsons Finished")
+        return amazonJsons
+    return []
 
-    print("amazonJsons Finished")
-    return amazonJsons
-
-#print(getAmazonGifts("bear",3))
-
-
+#print(getEtsyGifts("bear", 3))
+#print(getAmazonGifts("bear", 3))
 
 # ----------- Uncommon Gifts Products --------------
 '''
