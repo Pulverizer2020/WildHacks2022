@@ -44,7 +44,7 @@ const SearchBox = (props: {
     <>
       <div className="form-wrapper">
         <textarea
-          className="search-box form-control"
+          className="search-box "
           value={searchQuery}
           onChange={handleTextChange}
         ></textarea>

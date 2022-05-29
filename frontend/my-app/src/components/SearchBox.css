@@ -6,12 +6,22 @@
 }
 
 .search-box {
-  width: 80%;
+  width: 100%;
   height: 250px;
   border-radius: 15px;
   resize: none;
   padding-left: 10px;
   padding-top: 10px;
+  text-align: center;
+  font-family: "Raleway";
+  font-size: 30px;
+  outline: none;
+  border-color: rgb(212, 212, 212);
+  font-style: italic;
+}
+
+.search-box:hover {
+  cursor: text;
 }
 
 .submit-button {

@@ -1,16 +1,19 @@
 import React from "react";
-import "./ProductCard.css";
+import "./ProductRow.css";
 
 import ProductCarousel from "./ProductCarousel";
+import ProductCard from "./ProductCard";
 
 export type ProductProps = {
   recommendation: string;
   justification: string;
   products: {
-    product_url: string;
     site: string;
-    title: string;
-    price: number;
+    product_name: string;
+    price: string;
+    currency: string;
+    image_url: string;
+    product_url: string;
   }[];
 };
 
@@ -20,14 +23,30 @@ const ProductRow = (props: {
 }) => {
   return (
     <>
-      <div>
+      <div className="product-row-container">
         <div>
-          <h2>
+          <h2 className="product-row-heading">
             {props.number}. {props.productRecommendation.recommendation};{" "}
             <span>{props.productRecommendation.justification}</span>
           </h2>
         </div>
-        <ProductCarousel products={props.productRecommendation.products} />
+        <div className="product-container">
+          {props.productRecommendation.products
+            ? props.productRecommendation.products.map((prod, i) => {
+                return (
+                  <ProductCard
+                    key={i}
+                    currency={prod.currency}
+                    image_url={prod.image_url}
+                    product_name={prod.product_name}
+                    price={prod.price}
+                    product_url={prod.product_url}
+                    site={prod.site}
+                  />
+                );
+              })
+            : null}
+        </div>
       </div>
     </>
   );

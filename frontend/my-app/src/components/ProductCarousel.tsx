@@ -25,7 +25,9 @@ const ProductRow = (props: { products: ProductProps["products"] }) => {
               return (
                 <ProductCard
                   key={i}
-                  title={prod.title}
+                  currency={prod.currency}
+                  image_url={prod.image_url}
+                  product_name={prod.product_name}
                   price={prod.price}
                   product_url={prod.product_url}
                   site={prod.site}

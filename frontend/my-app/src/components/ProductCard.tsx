@@ -11,15 +11,33 @@ const ProductCard = (props: ProductProps["products"][number]) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <img className="product-image" src="logo512.png" alt={props.title} />
+      <EcomLogo siteName={props.site} />
+      <img
+        className="product-image"
+        src="logo512.png"
+        alt={props.product_name}
+      />
       <div className="card-body product-info-container">
-        <h5 className="card-title">Card title</h5>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </p>
+        <h5 className="card-title">{props.product_name}</h5>
+        <p className="card-text">{props.price}$</p>
       </div>
     </a>
+  );
+};
+
+const EcomLogo = (props: { siteName: string }) => {
+  return (
+    <div className="logo-box">
+      {props.siteName === "Amazon" ? (
+        <img
+          src="Amazon_logo.png"
+          alt="Amazon Product"
+          className="logo-image-amazon"
+        />
+      ) : props.siteName === "Etsy" ? (
+        <img src="Etsy_logo.png" alt="Etsy Logo" className="logo-image-etsy" />
+      ) : null}
+    </div>
   );
 };
 
