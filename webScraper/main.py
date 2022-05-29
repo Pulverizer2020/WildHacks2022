@@ -10,8 +10,8 @@ from urllib import request
 from time import sleep
 
 # Create an Extractor by reading from the YAML file
-e2 = Extractor.from_yaml_file('search_results.yml')
-e = Extractor.from_yaml_file('selectors.yml')  # webScraper/
+e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
+e = Extractor.from_yaml_file('webScraper/selectors.yml')  # webScraper/
 
 proxies = [{"http": "208.85.20.119:1987"},
            {"http": "165.225.94.217:10130"},
@@ -20,7 +20,6 @@ proxies = [{"http": "208.85.20.119:1987"},
            {"http": "206.84.108.138:3128"},
            {"http": "165.225.206.219:10015"}
            ]
-
 
 # ----------- Etsy Page Scraper  ---------
 
@@ -129,7 +128,7 @@ def getEtsyGifts(input_string, amt_of_products):
     return etsyJsons
 
 # ---------------- Amazon Scrape ----------------
-def getAmazonGifts(input_string, amt_of_products):
+def getAmazonGifts(input_string, amt_of_products=2):
 
     url_amazon = f"https://www.amazon.com/s?k={urllib.parse.quote_plus(input_string).replace('%20', '+')}"
     data = scrape_page_amazon(url_amazon)
@@ -174,4 +173,4 @@ def getUncommonGoods(input_string, amt_of_products):
 # a = getUncommonGoods("Coke Zero", 3)
 # b = getEtsyGifts("Spaghetti Sauce", 3)
 # c = getAmazonGifts("Coke Zero", 3)
-print("stop")
+# print("stop")
