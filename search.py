@@ -35,7 +35,7 @@ class GiftSearchEndpoint(Resource):
         response = openai.Completion.create(
             engine="text-curie-001",
             prompt=generate_prompt(description),
-            max_tokens=100,
+            max_tokens=300,
             temperature=temp,
         )
 
@@ -106,6 +106,18 @@ Gift Recommendations:
 4. Whiskey flask with matching shot glass - To sip his favorite bourbon from when he hunts.
 5. Bullet shaped BBQ lighter - To use while barbequing next to his truck.
 6. Bluetooth tire pressure sensor - To keep up with his tires to ensure he drives safe.
+
+
+Description: A college student who is studying software engineering. He likes to watch cooking videos and basketball games. He plays League of Legends. He does not like the sun.
+
+Gift Recommendations:
+1. League of Legends mousepad - So he can improve his gaming skills.
+2. Quality pair of noise-cancelling headphones - To help remove distractions while studying in the library.
+3. Weather-resistant, UV-resistant sun umbrella - So he can enjoy the outdoors without getting sunburned.
+4. Rice cooker - So he can make his own healthy meals on nights he doesn't feel like cooking.
+5. Sanitizer wand - To keep his dorm room clean.
+6. Laptop stand - So he can use his laptop more comfortably.
+7. Personalized basketball jersey - So he can show his support for his favorite team.
 
 
 Description: {description} 
