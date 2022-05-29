@@ -4,6 +4,8 @@ from flask_restful import Resource
 import openai
 import json
 
+from webScraper.main import getAmazonGifts, getEtsyGifts
+
 
 class GiftSearchEndpoint(Resource):
     def __init__(self):
@@ -33,6 +35,7 @@ class GiftSearchEndpoint(Resource):
         )
 
         json_response = parse_response(response)
+        json_response = compile_product_data(json_response)
         self.last_response = json_response
         print(json_response)
         
@@ -49,7 +52,11 @@ def parse_response(response):
     ret = []
 
     for i in items:
-        rec, desc = i.split(" - ")
+        # sometimes parsing fails because of weird GPT3 outputs
+        try:
+            rec, desc = i.split(" - ")
+        except:
+            break
 
         ret.append({
             "recommendation": rec,
@@ -58,6 +65,16 @@ def parse_response(response):
         })
 
     return ret
+
+def compile_product_data(items):
+    for i in items[:1]:
+        amazon = getAmazonGifts(i["recommendation"], 2)
+        # etsy = getEtsyGifts(i["recommendation"], 2)
+
+        print(i)
+        print(amazon)
+        for a in amazon:
+            print(a)
 
 def generate_prompt(description):
     return f"""This is an expert recommendation tool that gives gift ideas based on a personal description.

@@ -1,6 +1,6 @@
 import json
-import utils
-import xmltojson
+# import utils
+# import xmltojson
 import requests
 import urllib.parse
 from selectorlib import Extractor
@@ -10,8 +10,8 @@ from urllib import request
 from time import sleep
 
 # Create an Extractor by reading from the YAML file
-e2 = Extractor.from_yaml_file('search_results.yml')
-e = Extractor.from_yaml_file('selectors.yml')
+e2 = Extractor.from_yaml_file('webScraper/search_results.yml')
+e = Extractor.from_yaml_file('webScraper/selectors.yml')
 
 
 # ----------- Etsy Page Scraper  ---------
@@ -133,9 +133,9 @@ def getAmazonGifts(input_string, amt_of_products):
 
 
 
-print(getEtsyGifts("George Washington mug", 3))
+# print(getEtsyGifts("George Washington mug", 3))
 
-print(getAmazonGifts("Nice", 3))
+# print(getAmazonGifts("Nice", 3))
 
 '''
 # ----------- Uncommon Gifts Products --------------
