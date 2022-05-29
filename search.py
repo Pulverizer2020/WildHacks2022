@@ -9,12 +9,14 @@ class GiftSearchEndpoint(Resource):
     def __init__(self):
         self.last_response = None
 
+    # returns gift suggestions from last post to endpoint
     def get(self):
         if self.last_response:
             return Response(json.dumps(self.last_response), mimetype="application/json", status=200)
         else:
             return Response(json.dumps({"message":"make a query for openAI"}), mimetype="application/json", status=200)
 
+    # takes body with "prompt" field containing description of gift reciever
     def post(self):
         print("in here")
         body = request.get_json()
@@ -22,6 +24,7 @@ class GiftSearchEndpoint(Resource):
 
         description = body["prompt"]
         print(description)
+        # actual call to OpenAI api, many optional args
         response = openai.Completion.create(
             engine="text-babbage-001",
             prompt=generate_prompt(description),
@@ -29,15 +32,17 @@ class GiftSearchEndpoint(Resource):
             temperature=0.8,
         )
 
-        print(response)
-        json_response = parse_response(response["choices"][0]["text"].strip())
+        json_response = parse_response(response)
         self.last_response = json_response
         print(json_response)
         
 
         return Response(json.dumps(json_response), mimetype="application/json", status=200)
 
-def parse_response(text):
+# parses response for frontend to display
+def parse_response(response):
+    print(response)
+    text = response["choices"][0]["text"].strip()
     items = text.split("\n")
     items = [i[3:] for i in items]
 
