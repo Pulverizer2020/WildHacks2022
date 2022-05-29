@@ -34,8 +34,13 @@ header {
 
 .instructions-container {
   font-family: "Raleway";
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 500;
+  font-size: 20px;
+  width: 66%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  margin-bottom: 15px;
 }
 
 .example-container {

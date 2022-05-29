@@ -6,7 +6,7 @@
 .product-container {
   /* display: flex; */
   flex-direction: row;
-  width: 100%;
+  width: 98%;
   /* flex-wrap: wrap; */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -16,13 +16,15 @@
   text-align: left;
   display: flex;
   align-items: flex-start;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: 20px;
 }
 
 .product-row-prodname {
   font-family: "Raleway";
   font-size: 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-row-justification {
