@@ -20,15 +20,14 @@ class GiftSearchEndpoint(Resource):
 
     # takes body with "prompt" field containing description of gift reciever
     def post(self):
-        print("in here")
         body = request.get_json()
-        print(body)
+        print("POST request to api/search endpoint, body:", body)
 
         description = body["prompt"]
-        print(description)
+        print("giftee description:", description)
         # actual call to OpenAI api, many optional args
         response = openai.Completion.create(
-            engine="text-babbage-001",
+            engine="text-curie-001",
             prompt=generate_prompt(description),
             max_tokens=100,
             temperature=0.8,
@@ -38,7 +37,7 @@ class GiftSearchEndpoint(Resource):
         json_response = compile_product_data(json_response)
         self.last_response = json_response
 
-        return Response(json.dumps(json_response), mimetype="application/json", status=200)
+        return Response(json.dumps(json_response), mimetype="application/json", status=201)
 
 # parses response for frontend to display
 def parse_response(response):
@@ -65,15 +64,15 @@ def parse_response(response):
     return ret
 
 def compile_product_data(items):
-    for i in items[:3]:
-        print(i["recommendation"])
+    for rec in items[:3]:
+        print(rec["recommendation"])
         # amazon = getAmazonGifts(i["recommendation"], 2)
-        etsy = getEtsyGifts(i["recommendation"], 2)
+        etsy = getEtsyGifts(rec["recommendation"], 2)
 
-        print(i)
+        print(rec)
         print("Etsy search results:", etsy)
         for product in etsy:
-            i["products"].append({
+            rec["products"].append({
                 "site": product[0],
                 "product_name": product[1],
                 "price": product[2],
