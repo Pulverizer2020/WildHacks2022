@@ -1,8 +1,9 @@
 .App {
   text-align: center;
   background-color: rgb(250, 250, 250);
-  height: 100vh;
+  height: max(100vh, 100%);
   width: 100vw;
+  padding-bottom: 50px;
 }
 
 .main-body {

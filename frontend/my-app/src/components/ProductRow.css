@@ -2,13 +2,30 @@
   width: 80%;
 }
 
-.product-row-heading {
-  font-family: "Raleway";
-  text-align: left;
-}
-
 .product-container {
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+
+.product-row-full-title {
+  text-align: left;
+  display: flex;
+  align-items: baseline;
+}
+
+.product-row-number {
+  font-family: "Raleway";
+  font-size: 85px;
+}
+
+.product-row-prodname {
+  font-family: "Raleway";
+  font-size: 60px;
+}
+
+.product-row-justification {
+  font-family: "Raleway";
+  font-size: 30px;
+  font-weight: 500;
 }

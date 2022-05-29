@@ -9,8 +9,9 @@ import ProductRow from "./components/ProductRow";
 function App() {
   const [products, setProducts] = useState<ProductProps[]>([
     {
-      recommendation: "recommendation",
-      justification: "justification",
+      recommendation: "This is a long",
+      justification:
+        "This is a long justification that the ai might give give give",
       products: [
         {
           product_url: "product.com",
