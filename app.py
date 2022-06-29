@@ -10,10 +10,10 @@ from search import initialize_routes
 
 from flask_cors import CORS
 
-
 app = Flask(__name__)
 api = Api(app)
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "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"
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 

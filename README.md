@@ -4,6 +4,9 @@ The Gift Whisperer - a web app for creative gift recommendations!
 
 Andrew Pulver - Julian Baldwin - Ryan Newkirk
 
+# Payment via Square
+Made for Square Onboarding Project. Treated the suggested items as our own products, and created a system to add items to a cart before checking them out using Square Orders API and Checkout API. 
+
 # How to Run Website Locally
 
 1. Download Required Software
@@ -18,8 +21,12 @@ Andrew Pulver - Julian Baldwin - Ryan Newkirk
 3. Install libraries
    - In root folder, run the following command: pip install -r requirements.txt
    - Navigate to /frontend/my-app/ folder, then run the following command: npm i
-4. Start frontend and backend servers
+4. Server for Square API
+   - In root folder, run the following command: npm run dev
+   - This will run at localhost:3000
+5. Start frontend and backend servers
    - In root folder, run the following command: python3 app.py
    - In a new terminal, navigate to /frontend/my-app/ folder and run the following command: npm start
-5. Open Website
-   - In a web browser, navigate to the following url to view website: localhost:3000
+   - Type "y" to confirm to run the app on another port instead
+6. Open Website
+   - In a web browser, navigate to the following url to view website: localhost:3001

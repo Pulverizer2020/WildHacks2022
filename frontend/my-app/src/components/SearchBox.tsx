@@ -15,7 +15,7 @@ const SearchBox = (props: {
 
   const [creativity, setCreativity] = useState(0.7);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => { // just reuse however this API call works
     props.setIsLoading(true);
     e.preventDefault();
 
@@ -35,6 +35,7 @@ const SearchBox = (props: {
       );
 
       apiCall.json().then((res: ProductProps[]) => {
+        console.log("Products Found:")
         console.log(res);
         props.setIsLoading(false);
         props.setProducts(res);

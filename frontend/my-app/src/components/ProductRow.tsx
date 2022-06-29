@@ -19,6 +19,7 @@ export type ProductProps = {
 const ProductRow = (props: {
   productRecommendation: ProductProps;
   number: number;
+  isLoadingProdCard: React.Dispatch<React.SetStateAction<boolean>>; // not sure how this is supposed to be setup
 }) => {
   return (
     <>
@@ -42,13 +43,9 @@ const ProductRow = (props: {
             ? props.productRecommendation.products.map((prod, i) => {
                 return (
                   <ProductCard
-                    key={i}
-                    currency={prod.currency}
-                    image_url={prod.image_url}
-                    product_name={prod.product_name}
-                    price={prod.price}
-                    product_url={prod.product_url}
-                    site={prod.site}
+                      key={i}
+                      pProps={prod}
+                      setIsLoading={props.isLoadingProdCard}
                   />
                 );
               })

@@ -44,5 +44,6 @@
   },
   "devDependencies": {
     "@types/react-slick": "^0.23.8"
-  }
+  },
+  "proxy":"http://localhost:3000"
 }

@@ -1,6 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script
+      type="text/javascript"
+      src="https://sandbox.web.squarecdn.com/v1/square.js"
+    ></script>
+    
+    <!-- New script! -->
+    <script>
+      const appId = 'sandbox-sq0idb-JhMqYauwt6s7MbrEvCT4ag'
+      const locationId = 'L4YNZW1FPAWWG'
+      // initialize the "Card" payment method by calling payments.card() method, and attaching this payment method
+      // to the page DOM by calling the Card.attach() method.
+      async function initializeCard(payments) {
+        const card = await payments.card();
+        await card.attach('#card-container'); 
+        return card; 
+      }
+      // Call this function to send a payment token, buyer name, and other details
+      // to the project server code so that a payment can be created with 
+      // Payments API
+      async function createPayment(token) {
+        const body = JSON.stringify({
+          locationId,
+          sourceId: token,
+        });
+        console.log("index html run fetch payment (post method)");
+        const paymentResponse = await fetch('/payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body,
+        });
+        console.log(paymentResponse);
+        
+        if (paymentResponse.ok) {
+          return paymentResponse.json();
+        }
+        const errorBody = await paymentResponse.text();
+        throw new Error(errorBody);
+      }
+      // This function tokenizes a payment method. 
+      // The ‘error’ thrown from this async function denotes a failed tokenization,
+      // which is due to buyer error (such as an expired card). It is up to the
+      // developer to handle the error and provide the buyer the chance to fix
+      // their mistakes.
+      async function tokenize(paymentMethod) {
+        console.log("when doe sthis happen? tokenize")
+        const tokenResult = await paymentMethod.tokenize();
+        if (tokenResult.status === 'OK') {
+          return tokenResult.token;
+        } else {
+          let errorMessage = `Tokenization failed-status: ${tokenResult.status}`;
+          if (tokenResult.errors) {
+            errorMessage += ` and errors: ${JSON.stringify(
+              tokenResult.errors
+            )}`;
+          }
+          throw new Error(errorMessage);
+        }
+      }
+      // Helper method for displaying the Payment Status on the screen.
+      // status is either SUCCESS or FAILURE;
+      function displayPaymentResults(status) {
+        console.log("when doe sthis happen? display payment results")
+        const statusContainer = document.getElementById(
+          'payment-status-container'
+        );
+        if (status === 'SUCCESS') {
+          statusContainer.classList.remove('is-failure');
+          statusContainer.classList.add('is-success');
+        } else {
+          statusContainer.classList.remove('is-success');
+          statusContainer.classList.add('is-failure');
+        }
+        statusContainer.style.visibility = 'visible';
+      }
+      
+      document.addEventListener('DOMContentLoaded', async function () {
+        console.log("when doe sthis happen? dom content loaded")
+        if (!window.Square) {
+          throw new Error('Square.js failed to load properly');
+        }
+        const payments = window.Square.payments(appId, locationId);
+        let card;
+        try {
+          card = await initializeCard(payments);
+        } catch (e) {
+          console.error('Initializing Card failed', e);
+          return;
+        }
+        
+        
+        // --- handling PAYMENT ---
+        async function handlePaymentMethodSubmission(event, paymentMethod) {
+          event.preventDefault();
+          try {
+            // disable the submit button as we await tokenization and make a
+            // payment request.
+            cardButton.disabled = true;
+            const token = await tokenize(paymentMethod);
+            const paymentResults = await createPayment(token);
+            displayPaymentResults('SUCCESS');
+            console.debug('Payment Success', paymentResults);
+          } catch (e) {
+            cardButton.disabled = false;
+            displayPaymentResults('FAILURE');
+            console.error(e.message);
+          }
+        };
+
+        const cardButton = document.getElementById(
+          'card-button'
+        );
+
+        cardButton.addEventListener('click', async function (event) {
+          await handlePaymentMethodSubmission(event, card);
+        });
+
+        // --- handling ORDERS --- 
+
+        /*
+        async function handleOrdering(event) {
+          event.preventDefault();
+          try {
+            // disable the submit button as we await tokenization and make a
+            // payment request.
+            addToCartButton.disabled = true;
+            //const token = await tokenize(orderMethod); //?????????????
+            const orderResults = await createOrder();
+            //displayPaymentResults('SUCCESS');
+            //console.debug('Payment Success', paymentResults);
+          } catch (e) {
+            //addToCartButton.disabled = false;
+            //displayPaymentResults('FAILURE');
+            console.error(e.message);
+          }
+        }
+        */
+
+        //const addToCartButton = document.getElementById(
+        //  'add-to-cart-button'
+        //);
+        
+        //addToCartButton.addEventListener('click', async function (event) {
+        //  await handleOrdering(event);
+        //});
+        
+        //addToCartButton.addEventListener('click',someListener);
+
+        //function someListener(event){
+        //  var element = event.target;
+        //  if(element.tagName == 'add-to-cart-button'){
+        //    console.log("hi")
+        //  }
+        //}
+
+
+      });
+
+      // ------- createOrder --------- //
+
+      /*
+      async function createOrder() {
+        const body = JSON.stringify({
+          locationId,
+          //sourceId: token,
+        });
+        console.log("index html run fetch payment (post method)");
+        const orderResponse = await fetch('/orderItem', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body,
+        });
+        console.log(orderResponse);
+        
+        if (orderResponse.ok) {
+          return orderResponse.json();
+        }
+        const errorBody = await orderResponse.text();
+        throw new Error(errorBody);
+      }
+      */
+
+
+
+
+
+    </script>
+
+
+
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,10 +218,23 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <link href="app.css" rel="stylesheet" />
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+
+
+
+
+    <form id="payment-form">
+      <div id="card-container"></div>
+      <button id="card-button" type="button">Pay $1.00</button>
+    </form>
+    <div id="payment-status-container"></div>
+   
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

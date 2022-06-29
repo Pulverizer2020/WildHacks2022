@@ -6,7 +6,10 @@ import Slider from "react-slick";
 import { ProductProps } from "./ProductRow";
 import ProductCard from "./ProductCard";
 
-const ProductRow = (props: { products: ProductProps["products"] }) => {
+const ProductRow = (props: { 
+  products: ProductProps["products"] 
+  isLoadingProdCard: React.Dispatch<React.SetStateAction<boolean>>; // not sure how this is supposed to be setup
+}) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -25,12 +28,14 @@ const ProductRow = (props: { products: ProductProps["products"] }) => {
               return (
                 <ProductCard
                   key={i}
-                  currency={prod.currency}
-                  image_url={prod.image_url}
-                  product_name={prod.product_name}
-                  price={prod.price}
-                  product_url={prod.product_url}
-                  site={prod.site}
+                  pProps={prod}
+                  setIsLoading={props.isLoadingProdCard}
+                  //currency={prod.currency}
+                  //image_url={prod.image_url}
+                  //product_name={prod.product_name}
+                  //price={prod.price}
+                  //product_url={prod.product_url}
+                  //site={prod.site}
                 />
               );
             })

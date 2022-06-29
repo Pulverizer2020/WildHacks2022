@@ -32,6 +32,12 @@ header {
   z-index: 10;
 }
 
+.checkout-button {
+  width: 50%;
+  background-color: rgb(0, 168, 0);
+  z-index: 10;
+}
+
 .instructions-container {
   font-family: "Raleway";
   font-weight: 500;

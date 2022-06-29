@@ -80,13 +80,13 @@ def scrape_amazon(product):
             print("Page %s was blocked by Amazon. Please try using better proxies\n" % url)
         else:
             print("Page %s must have been blocked by Amazon as the status code was %d" % (url, r.status_code))
-        return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
+        return ['Amazon', product['title'], product['price'], None, productImage, url]
     resultingProduct = e.extract(r.text)
     if resultingProduct:
         if resultingProduct['images']:
             productImage = list(json.loads(resultingProduct['images']))[-1]
-            return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
-    return ['Amazon', product['title'], product['price'], None, productImage, product['url']]
+            return ['Amazon', product['title'], product['price'], None, productImage, url]
+    return ['Amazon', product['title'], product['price'], None, productImage, url]
 
 
 # ----------- Amazon Page Scraper -------------
@@ -180,7 +180,7 @@ def getUncommonGoods(input_string, amt_of_products):
         uncommonItems.append(['Uncommon Goods', gTitle, gPrice, None, gImg, gURL])
     return uncommonItems
 
-#a = getUncommonGoods("Sanitizing Wand", 2)
-#b = getEtsyGifts("Sanitizing Wand", 2)
-#c = getAmazonGifts("Sanitizing Wand", 2)
-#print("jey")
+a = getUncommonGoods("Sanitizing Wand", 2)
+b = getEtsyGifts("Sanitizing Wand", 2)
+c = getAmazonGifts("Sanitizing Wand", 2)
+print("jey")
