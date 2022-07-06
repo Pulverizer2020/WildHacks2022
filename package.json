@@ -1,0 +1,11 @@
+{
+    "name": "gift-griffin-heroku-react-build-file",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+      "build": "cd react-client && npm install && npm run build"
+    },
+    "dependencies": {
+        "cross-env": "^7.0.3"
+    }
+} 

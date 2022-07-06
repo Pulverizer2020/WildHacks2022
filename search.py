@@ -70,6 +70,20 @@ def parse_response(response):
     return ret
 
 def compile_product_data(items):
+    # sample items for testing
+    for rec in items:
+        rec["products"].append({
+            "site": "Amazon",
+            "product_name": "sample product",
+            "price": "4.99",
+            "currency": "USD",
+            "image_url": 'https://images.uncommongoods.com/images/items/50200/50274_1_360px.jpg',
+            "product_url": 'https://www.uncommongoods.com/product/day-hike-supply-pack'
+        })
+
+    return items
+
+
     # amazon results are fetched concurrently to save time
     amazon_results = []
     with threads.ThreadPoolExecutor() as executor:
